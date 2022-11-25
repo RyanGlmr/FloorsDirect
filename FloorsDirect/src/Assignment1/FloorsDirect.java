@@ -39,13 +39,14 @@ public class FloorsDirect {
 					yesNo = key.next().toUpperCase().charAt(0);
 					if (yesNo == 'Y')
 					{
+						My.clear();
 						My.p("\n\n\t\t\tMAIN MENU");
 						My.p("\n\tPlease select which type of flooring you would like to order");
 						My.p("\n\n\t\t1. Carpet");
 						My.p("\n\n\t\t2. Wood");
 						My.p("\n\n\t\t3. Tiled");
 
-						mainMenuOpt = myVal.validIntRange("", 1, 3);
+						mainMenuOpt = myVal.validIntRange("\n\n \t\t Selection: ", 1, 3);
 						
 						switch(mainMenuOpt)
 						{
@@ -86,7 +87,6 @@ public class FloorsDirect {
 	public static void custDetails (int login, int choice, ArrayList <Integer> custID, ArrayList <String> custName, ArrayList <String> custAddress)
 	{
 		int id = 100;
-		String Name;
 
 		custName.add("Bazza McShmickle");
 		custName.add("Aaron Tech");
@@ -123,11 +123,30 @@ public class FloorsDirect {
 	//===================================================================================================================
 				public static void tileMainMenu(int mainMenuOpt)
 				{
+					char c = ' ';
+					int tileMainMenuOpt = 0;
 					if (mainMenuOpt == 3)
 					{
 						My.clear();
-						My.p("TILE MENU WILL APPEAR HERE");
+						My.p("Tile Menu");
+						My.pln("\nWhat kind of tile would you like to order?");
+						My.p(String.format("1. Quartz Stone Midnight Black %-10c| £5.99", c));
+						My.p("\n2. Presealed Terracotta");
+						My.p("\n3. Super White Porcelain");
+						My.p("\n4. Coda Grey");
+						My.p("\n5. Grey Marble Split Mosaic");
+						
+						tileMainMenuOpt = myVal.validIntRange("\n\n Selection:", 1, 5);
+						tileTypeMenu(tileMainMenuOpt);
 					}
 				}
+				
+				public static void tileTypeMenu(int tileMainMenuOpt)
+				{
+					My.clear();
+					if (tileMainMenuOpt == 1)
+					My.p("You have selected - Quartz Stone Midnight Black");
+				}
 
+				
 }
