@@ -10,4 +10,9 @@ public class My {
 	{
 		System.out.println(s);
 	}
+	public static void clear()
+	{
+		My.p("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	}
+	
 }
