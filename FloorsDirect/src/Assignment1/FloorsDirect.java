@@ -28,7 +28,7 @@ public class FloorsDirect {
 				login = myVal.validInt("\nPlease enter your customer ID - ");				
 				custDetails(login, choice, custID, custName, custAddress);
 				
-				My.p("Are the above details correct?");
+				My.p("\n\n\t\tAre the above details correct?");
 				yesNo = key.next().charAt(0);
 				
 				/*IF (yesNo == 'Y')
