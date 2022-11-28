@@ -14,5 +14,8 @@ public class My {
 	{
 		My.p("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
-	
+	public static void titleBar()
+	{
+	My.p("\n==========================================================================");
+	}
 }
