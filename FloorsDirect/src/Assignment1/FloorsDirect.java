@@ -193,8 +193,8 @@ public class FloorsDirect {
 		double lengthEntry = 0.00, breadthEntry = 0.00, tileTotalBill = 0.00;
 		char cont =' ';
 		//Inputting the length and breadth
-		lengthEntry = myVal.validDouble("\nPlease provide the largest length of the room in meters, up to 3 decimal places: ");
-		breadthEntry = myVal.validDouble("Please provide the largest breadth of the room in meters, up to 3 decimal places: ");
+		lengthEntry = myVal.validDouble("\n\tEnter the length in meters. '.3' decimals will give 'mm' accuracy\n  ");
+		breadthEntry = myVal.validDouble("Enter the breadth in meters: ");
 		
 		//calculating the amount of tiles required rounded up and the amount it will cost for all the tiles.
 				amountOfTilesL = Math.ceil(lengthEntry/tileLength[tileTypeOpt]);
