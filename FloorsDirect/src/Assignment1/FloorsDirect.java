@@ -13,6 +13,8 @@ public class FloorsDirect {
 	public static void main(String[] args) 
 	{
 		
+			
+		
 			//Arrays below are for customer details
 			ArrayList <Integer> custID = new ArrayList <Integer>();
 			ArrayList <String> custName = new ArrayList <String>();
