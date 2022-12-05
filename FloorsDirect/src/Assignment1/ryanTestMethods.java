@@ -316,11 +316,12 @@ public class ryanTestMethods
 
 		
 		
-		choice = myVal.validIntRange("\\nnPress 1. to return to main menu\n\n\tSelection: ", 1, 2);
+		choice = myVal.validIntRange("\n\nPress 1. to return to main menu\n\n\tSelection: ", 1, 2);
 		switch (choice)
 		{
 		case 1: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill);
-		break;		}
+		break;		
+		}
 		
 	}
 	
@@ -348,7 +349,6 @@ public class ryanTestMethods
 		My.p(String.format("\n\t\tTotal bill = £%.2f", sumBill));
 
 		return sumBill;
-
 	}
 
 	
