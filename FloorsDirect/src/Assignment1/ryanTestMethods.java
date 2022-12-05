@@ -48,13 +48,20 @@ public class ryanTestMethods
 		ArrayList <Double> extraOrderCost = new ArrayList<Double>();
 		ArrayList <Integer>extraOrderAmount = new ArrayList<Integer>();
 		
-		//Fitting fee arrays
-		mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount);
+		//Fitting fee/Total bill values
+		ArrayList <Double> tileFitCPA = new ArrayList<Double>();
+		int addFitting = 0;
+		double sumBill = 0;
+
+		mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill);
+		
+		//checkout(tileOrderCost, extraOrderCost, tileFitCPA, addFitting, sumBill);
+
 	}
 	
-	public static void mainMenu(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, double [] tileCost, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount)
+	public static void mainMenu(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, double [] tileCost, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, ArrayList <Double> tileFitCPA, double sumBill)
 	{
-		int mainMenuOpt;
+		int mainMenuOpt = 0, addFitting = 0;
 		
 		My.clear();
 		My.p("\n\n\t\t\tMAIN MENU");
@@ -63,20 +70,22 @@ public class ryanTestMethods
 		My.p("\n\n\t\t1. Carpet");
 		My.p("\n\n\t\t2. Wood");
 		My.p("\n\n\t\t3. Tiled");
+		My.p("\n\n\t\t4. Checkout");
 
-		mainMenuOpt = myVal.validIntRange("\n\n \t\t Selection: ", 1, 3);
+		mainMenuOpt = myVal.validIntRange("\n\n \t\t Selection: ", 1, 4);
 		
 		switch(mainMenuOpt)
 		{
 		case 1: My.p("you selected Carpet"); // put the carpet method in here
 		case 2: My.p("you selected Wood"); // put the Wood method in here
-		case 3: 		tileMainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount); // put the Tiles method in here
+		case 3: tileMainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, addFitting, sumBill); // put the Tiles method in here
+		case 4: checkout(tileOrderCost, extraOrderCost, tileFitCPA, addFitting, sumBill);
 		}
 		
 	}
 	public static void tileMainMenu(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, 
 									ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC,  
-									double [] tileCost, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount)
+									double [] tileCost, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, ArrayList <Double> tileFitCPA, int addFitting, double sumBill)
 	{
 		String [] tileType = {"Quartz Stone Midnight Black", "Presealed Terracotta", "Super White Porcelain", "Coda Grey", "Grey Marble Split Mosaic"};
 		String [] tileSize = {"M 300x300mm", "M 300x300mm", "L 300x600mm", "L 310x560mm", "S 300x150mm"};
@@ -108,7 +117,7 @@ public class ryanTestMethods
 					if (choice == 6) 
 					{
 						areaNum.remove(areaNum.size()-1);
-						mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount);
+						mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill);
 					}
 					tileOrderType.add(tileType[choice-1]);						//1st of 4 receipt array used
 					tileOrderSize.add(tileSize[choice-1]);						//2nd of 4 receipt array used
@@ -135,16 +144,17 @@ public class ryanTestMethods
 			extrasTileMenu(amountOfTilesL, amountOfTilesB, areaNum, extraOrderType, extraOrderCost, extraOrderAmount);
 			//tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize);
 
-			
+			tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize, tileFitCPA, addFitting);
 			//========================Once Extras/Fittings have been ordered. This will loop round to start if YES====================
-			choice = myVal.validIntRange("\n\nWould you like to buy more tiles?\n\t1. Yes\n\t2. Main Menu \n\t3. View receipt/Go to checkout \nSelection: ", 1, 3);
+			choice = myVal.validIntRange("\n\nWould you like to buy more tiles?\n\t1. Yes\n\t2. Main Menu \n\t3. **Fitting menu \n\t4. View receipt/Fitting Charges \nSelection: ", 1, 4);
 			
 			
 			switch (choice)
 			{
 			case 1:	area++; break;//area will be like an index for the receipt. each area will correlate with items on order per area.
-			case 2: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount); break;
-			case 3: tileReceipt(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, extraOrderType, extraOrderCost, extraOrderAmount); break;
+			case 2: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill); break;
+			//case 3: tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize, tileFitCPA, addFitting);
+			case 4: tileReceipt(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill); break;
 			}
 		}while(choice == 1);
 	}
@@ -204,7 +214,7 @@ public class ryanTestMethods
 					{
 						if (choice > 0 && choice < 4)
 							extrasTileMenuPop();
-						choice = myVal.validIntRange("\n\tPress 4 for to return.  \n\nWhat extras would you like to order? \nSelection: ", 1, 4);
+						choice = myVal.validIntRange("\n\tPress 4 to return.  \n\nWhat extras would you like to order? \nSelection: ", 1, 4);
 						
 						if (choice < 4)
 						{
@@ -214,7 +224,7 @@ public class ryanTestMethods
 						
 						extraOrderAmount.add(amount);
 						extraOrderCost.add(extraCost[choice-1]*amount);					//3rd of 3 receipt extraArray
-						
+						My.clear();
 						My.p(String.format("\n%d \"%s\" will cost £%.2f\n\n", extraOrderAmount.get(arrCount), extraOrderType.get(arrCount), extraOrderCost.get(arrCount)));
 						arrCount++;
 						}
@@ -233,13 +243,13 @@ public class ryanTestMethods
 	}
 	//===========================================Tile Fitting Menu=========================================================
 	//=====================================================================================================================
-	public static void tileFittingMenu(ArrayList <Integer> areaNum, ArrayList <Integer> tileOrderAmount, ArrayList <String> tileOrderSize)
+	public static double tileFittingMenu(ArrayList <Integer> areaNum, ArrayList <Integer> tileOrderAmount, ArrayList <String> tileOrderSize, ArrayList <Double> tileFitCPA, int addFitting)
 	{
 		double [] tileFitCost = {1.25, 1.50, 1.75}; // S,M,L
-		ArrayList <Double> tileFitCPA = new ArrayList<Double>();
 		double sumFitting = 0;
 		char sizeMatch = ' ', a = ' ';
-		for (int i = 0; i<areaNum.size(); i++)
+		
+		for (int i = (areaNum.size()-1); i<areaNum.size(); i++)
 		{
 
 			sizeMatch = tileOrderSize.get(i).charAt(0);
@@ -251,24 +261,34 @@ public class ryanTestMethods
 			case 'L': tileFitCPA.add(tileFitCost[2]*tileOrderAmount.get(i)); break;
 			}
 		}
+		My.titleBar();
 		My.p("\n\n\n\t\tFITTING COSTS");	
 		My.p(String.format("\nArea | No. of Tiles | %7c Size | %-4cCost  | ", a, a));
 		for (int i = 0; i<areaNum.size(); i++)
 		{
-			My.p(String.format("\n %3d | %12d | %12s | £%-9.2f|", areaNum.get(i), tileOrderAmount.get(i), tileOrderSize.get(i), tileFitCPA.get(i)));
 			sumFitting += tileFitCPA.get(i);
+			My.p(String.format("\n %3d | %12d | %12s | £%-9.2f|", areaNum.get(i), tileOrderAmount.get(i), tileOrderSize.get(i), tileFitCPA.get(i)));
+			
 		}
 		
-		My.p(String.format("Total: £%.2f + £50.", sumFitting));
-		// you will have to get the sum of the fitting costs here and pass it down to the calculate bill method
-		// you may possibly have to make a new array list to store the sum of all the tile costs, extras costs and fitting costs etc.
-		// however the customer should be asked whether they would like fitting costs or not.
+		My.p(String.format("\t| Total: £%.2f (inc. £50 set fee).", sumFitting+50));
+		
+		addFitting = myVal.validIntRange("\n\nWould you like to add/update our fitting services to the basket? \n\t\t1. Yes add charges\n\t\t2. No remove all charges", 1, 2);
+		
+		switch (addFitting)
+		{
+		case 1: My.p("\nCharges added."); break;
+		case 2: My.p("\nYou will not be charged for fitting services."); break;
+		}
+		
+		return addFitting;
 	}
-	public static void tileReceipt(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount)
+	public static void tileReceipt(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, ArrayList <Double> tileFitCPA, double sumBill)
 	{
 		My.clear();
 		int choice = 0;
 		double [] tileCost = {5.99, 6.89, 3.29, 4.67, 2.99};
+		double sumFitting = 0;
 		char a = ' ';
 		My.p("\n\t\tTILE COSTS");
 		My.p(String.format("\n| Area |%26c TILE |  PER  | %5c  SIZE | AMOUNT | %4cCOST |", a, a, a)); 
@@ -285,20 +305,52 @@ public class ryanTestMethods
 			My.p(String.format("\n| %-15s | %6d | £%8.2f |", extraOrderType.get(i), extraOrderAmount.get(i), extraOrderCost.get(i)));
 		}
 		
-		tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize);
+		My.p("\n\n\n\t\tFITTING COSTS");	
+		My.p(String.format("\nArea | No. of Tiles | %7c Size | %-4cCost  | ", a, a));
+		for (int i = 0; i<areaNum.size(); i++)
+		{
+			My.p(String.format("\n %3d | %12d | %12s | £%-9.2f|", areaNum.get(i), tileOrderAmount.get(i), tileOrderSize.get(i), tileFitCPA.get(i)));
+			sumFitting += tileFitCPA.get(i);
+		}	
+		My.p(String.format("\t| Total: £%.2f (inc. £50 set fee).", sumFitting+50));
+
 		
-		choice = myVal.validIntRange("\nPress 1. to return to main menu\n Press 2. to checkout.", 1, 2);
+		
+		choice = myVal.validIntRange("\\nnPress 1. to return to main menu\n\n\tSelection: ", 1, 2);
 		switch (choice)
 		{
-		case 1: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount); break;
-		case 2: break;
+		case 1: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill);
+		break;		}
+		
+	}
+	
+	public static double checkout(ArrayList <Double> tileOrderCost, ArrayList <Double> extraOrderCost, ArrayList <Double> tileFitCPA, int addFitting, double sumBill)
+	{
+		sumBill = 0;
+		for (int i = 0; i<tileOrderCost.size(); i++)
+		{
+			sumBill += tileOrderCost.get(i);
+		}
+		for (int i = 0; i<extraOrderCost.size(); i++)
+		{
+			sumBill += extraOrderCost.get(i);
+
+		}
+		if (addFitting == 1)
+		{
+			for (int i = 0; i<tileFitCPA.size(); i++)
+			{
+				sumBill += tileFitCPA.get(i);
+				sumBill += 50;
+			}
 		}
 		
-		/*public static void checkout(tileOrderCost)
-		{
-			// EVERYTHING WORKS, JUST TOTAL EVERYTHING IN HERE NOW THIS WILL TOTAL THE ENTIRE GROUPS BILLS AND OUTPUT
-		}*/
+		My.p(String.format("\n\t\tTotal bill = £%.2f", sumBill));
+
+		return sumBill;
+
 	}
+
 	
 
 } //REMEMBER YOU PASSED AREA NUM ARRAY INTO TILES FITTING MENU TO SORT OUT THE RECEIPT ISSUE. REMEMBER TO DELETE IF NOT GOING TO FIX 

@@ -200,7 +200,8 @@ public class testPassByRef {
 		recAmount[1] = whiteGrout;			recCost[1] = whiteGrout*extraCost[1];
 		recAmount[2] = spacerPacks;			recCost[2] = spacerPacks*extraCost[2];
 		
-		//=================================Extras Menu including recValues===============================================
+		//=================================Extras Menu including recValues==============================================================
+		//==============================================================================================================================
 		My.p("Spacers required - " + spacers);
 		
 		My.pln(String.format("\n\n\t\tEXTRAS MENU %20c RECOMMENDED VALUES", a));
