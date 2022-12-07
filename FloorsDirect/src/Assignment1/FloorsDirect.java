@@ -13,7 +13,6 @@ public class FloorsDirect {
 	public static void main(String[] args) 
 	{
 		ArrayList <Integer> areaNum = new ArrayList<Integer>();
-		// aTileAmount aTileCost aTileSize aTileSubBill || aExGroup || aFitGroup
 		
 		//Array group for tile receipt
 		ArrayList <String> tileOrderType = new ArrayList<String>();
@@ -255,15 +254,14 @@ public class FloorsDirect {
 			addFitting = tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize, tileFitCPA, addFitting);
 			
 			//========================Once Extras/Fittings have been ordered. This will loop round to start if YES====================
-			choice = myVal.validIntRange("\n\nWould you like to buy more tiles?\n\t1. Yes\n\t2. Main Menu \n\t3. **Fitting menu \n\t4. View receipt/Fitting Charges \nSelection: ", 1, 4);
+			choice = myVal.validIntRange("\n\nWould you like to buy more tiles?\n\t1. Yes\n\t2. Main Menu \n\t3. View receipt/Fitting Charges \nSelection: ", 1, 3);
 			
 			
 			switch (choice)
 			{
 			case 1:	area++; break;//area will be like an index for the receipt. each area will correlate with items on order per area.
 			case 2: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting); break;
-			//case 3: tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize, tileFitCPA, addFitting);
-			case 4: tileReceipt(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting); break;
+			case 3: tileReceipt(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting); break;
 			}
 		}while(choice == 1);
 		return addFitting;
