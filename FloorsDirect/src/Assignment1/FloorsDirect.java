@@ -75,7 +75,7 @@ public class FloorsDirect {
 						{
 							login = myVal.validInt("\nPlease retry re-entering your customer ID - ");
 							loggedIn = checkDetails(login, custID, custName, custAddress, loggedIn);
-								ok = false;	// This is just a bunch of '\n' to make it appear as if the console has been cleared.
+								ok = false;	
 						}  break;
 						case 3:
 						{
@@ -202,8 +202,6 @@ public class FloorsDirect {
 		int displayMenuOpt = 1, choice = 0, area = 0, numOfTiles = 0;
 		
 		addFitting = 0;
-		//IF AREA > 0 THEN...
-		//WOULD YOU LIKE TO VIEW RECEIPT BEFORE ENTERING TILE MENU? 
 		
 		do
 		{
