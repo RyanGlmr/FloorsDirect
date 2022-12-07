@@ -40,9 +40,9 @@ public class FloorsDirect {
 			ArrayList <Integer> custID = new ArrayList <Integer>();
 			ArrayList <String> custName = new ArrayList <String>();
 			ArrayList <String> custAddress = new ArrayList <String>();
-			boolean loggedIn, ok;
+			boolean ok, loggedIn = false;;
 			populateDB(custID, custName, custAddress);		//method to populate first 5 customers details
-
+ 
 			
 			int login = 0;	//login = customer ID e.g. 100 for bazza shnickle
 			int choice = 0;	//Choice is for the *** The non-customer menu *** below
@@ -50,69 +50,43 @@ public class FloorsDirect {
 			choice = myVal.validIntRange("\tWelcome to Floors Direct. \n\t\t1. Login \n\t\t2. Create account \n\t\t3. Main Menu\n\t\t Selection:  ", 1, 3);
 			switch (choice)
 			{
-			case 1:
-			{
-				login = myVal.validInt("\nPlease enter your customer ID - ");	
-				do 
+				case 1:
 				{
-					ok = true;
-				checkDetails(login, custID, custName, custAddress, loggedIn);
-				
-				if (loggedIn == true)
-				choice = myVal.validIntRange("\n\n\t\tAre the above details correct? \n\t\t\t1. Yes \n\t\t\t2. No\n\t\t\t3. Continue without logging in \n\t\t\tSelection:  ", 1, 3);
-				if (loggedIn == false || choice == 2)
-				{
+					login = myVal.validInt("\nPlease enter your customer ID - ");	
+					
+						ok = true;
+					loggedIn = checkDetails(login, custID, custName, custAddress, loggedIn);
 					do {
-						ok = false;
-						login = myVal.validIntRange("\nAs the ID was incorrect please either...\n\t1. Try again\n\t2. Continue without logging in ", 1, 2);
-						switch (login)
-						{
-							case 1:
-							{
-							login = myVal.validInt("\n Enter customer ID - ");				
-							checkDetails(login, custID, custName, custAddress, loggedIn);
-								if (loggedIn == true)
-								{
-								choice = myVal.validIntRange("\n\n\t\tAre the above details correct? \n\t\t\t1. Yes \n\t\t\t"
-										+ "2. No\n\t\t\t3. Continue without logging in \n\t\t\tSelection:  ", 1, 3);
-								}
-								else if(loggedIn == false)
-								ok = false;
-								
-							}break;
-							
-							case 2: 
-								{
-									loggedIn=false;
-									ok = true;
-									choice = 3;
-								}break;
-								
-						}
-					}while(!ok);
-				}
-				
-				switch (choice)
+					if (loggedIn == true)
+						choice = myVal.validIntRange("\n\n\t\tAre the above details correct? \n\t\t\t1. Yes \n\t\t\t2. No\n\t\t\t3. Continue without logging in \n\t\t\tSelection:  ", 1, 3);
+					else if (loggedIn == false)
 					{
-					
-					case 1: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn);
-					break;
-					
-					case 2:
-					{
-						login = myVal.validInt("\nPlease retry re-entering your customer ID - ");				
-							loggedIn = false;
-							ok = false;
-						My.clear(); break;	// This is just a bunch of '\n' to make it appear as if the console has been cleared.
-					} 
-					case 3:
-					{
-						loggedIn = false;
-						mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn);
+						choice = myVal.validIntRange("\nInvalid ID enterred. Press 2 to try again or 3 to continue to menu\n Selection: ", 2, 3);
 					}
-				}
+					switch (choice)
+						{
+						
+						case 1: 
+							{
+								mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting);
+								ok = true;
+							}break;
+						
+						case 2:
+						{
+							login = myVal.validInt("\nPlease retry re-entering your customer ID - ");
+							loggedIn = checkDetails(login, custID, custName, custAddress, loggedIn);
+								ok = false;	// This is just a bunch of '\n' to make it appear as if the console has been cleared.
+						}  break;
+						case 3:
+						{
+							loggedIn = false;
+							mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting);
+						} break;
+					}
 				}while (!ok);
-			} break;
+				}break;
+			 
 			
 			
 			//==========================*** The non-customer menu ***=============================
@@ -124,16 +98,16 @@ public class FloorsDirect {
 				switch (choice)
 				{
 				case 1: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, 
-						tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn); break;
+						tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting); break;
 				case 2: //ADD IN EIMEARS ADD CUST METHOD HERE
 				}
-			}
+			} break;
 			case 3: 
 				{
 					loggedIn = false;
 					mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, 
-					extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn); break;
-				}
+					extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting); 
+				} break;
 		}
 			
 			
@@ -184,17 +158,17 @@ public class FloorsDirect {
 				loggedIn = true;
 			}
 		}
-		
 	return loggedIn; 
-	
 	}
 	
 	//======================================METHOD FOR MAIN MENU=========================================================
 	//===================================================================================================================
-	public static void mainMenu(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, double [] tileCost, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, ArrayList <Double> tileFitCPA, double sumBill, boolean loggedIn)
+	public static void mainMenu(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, 
+			double [] tileCost, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, 
+			ArrayList <Double> tileFitCPA, double sumBill, boolean loggedIn, int addFitting)
 	{
-		int mainMenuOpt = 0, addFitting = 0;
-		
+		int mainMenuOpt = 0;
+		//addFitting = 0;
 		My.clear();
 		My.p("\n\n\t\t\tMAIN MENU");
 		My.titleBar();
@@ -210,13 +184,13 @@ public class FloorsDirect {
 		{
 		case 1: My.p("you selected Carpet"); break; // put the carpet method in here
 		case 2: My.p("you selected Wood"); break; // put the Wood method in here
-		case 3: tileMainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, 
+		case 3: addFitting = tileMainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, 
 				extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, addFitting, sumBill, loggedIn); break;// put the Tiles method in here
 		case 4: checkout(tileOrderCost, extraOrderCost, tileFitCPA, addFitting, sumBill, loggedIn); break;
 		}
 		
 	}
-	public static void tileMainMenu(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, 
+	public static int tileMainMenu(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, 
 									ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC,  
 									double [] tileCost, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, ArrayList <Double> tileFitCPA, int addFitting, double sumBill, boolean loggedIn)
 	{
@@ -228,6 +202,7 @@ public class FloorsDirect {
 		
 		int displayMenuOpt = 1, choice = 0, area = 0, numOfTiles = 0;
 		
+		addFitting = 0;
 		//IF AREA > 0 THEN...
 		//WOULD YOU LIKE TO VIEW RECEIPT BEFORE ENTERING TILE MENU? 
 		
@@ -250,7 +225,7 @@ public class FloorsDirect {
 					if (choice == 6) 
 					{
 						areaNum.remove(areaNum.size()-1);
-						mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn);
+						mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting);
 					}
 					tileOrderType.add(tileType[choice-1]);						//1st of 4 receipt array used
 					tileOrderSize.add(tileSize[choice-1]);						//2nd of 4 receipt array used
@@ -277,7 +252,8 @@ public class FloorsDirect {
 			extrasTileMenu(amountOfTilesL, amountOfTilesB, areaNum, extraOrderType, extraOrderCost, extraOrderAmount);
 			//tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize);
 
-			tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize, tileFitCPA, addFitting);
+			addFitting = tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize, tileFitCPA, addFitting);
+			
 			//========================Once Extras/Fittings have been ordered. This will loop round to start if YES====================
 			choice = myVal.validIntRange("\n\nWould you like to buy more tiles?\n\t1. Yes\n\t2. Main Menu \n\t3. **Fitting menu \n\t4. View receipt/Fitting Charges \nSelection: ", 1, 4);
 			
@@ -285,13 +261,14 @@ public class FloorsDirect {
 			switch (choice)
 			{
 			case 1:	area++; break;//area will be like an index for the receipt. each area will correlate with items on order per area.
-			case 2: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn); break;
+			case 2: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting); break;
 			//case 3: tileFittingMenu(areaNum, tileOrderAmount, tileOrderSize, tileFitCPA, addFitting);
-			case 4: tileReceipt(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn); break;
+			case 4: tileReceipt(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting); break;
 			}
 		}while(choice == 1);
+		return addFitting;
 	}
-
+	
 	
 	//=============================================Populate extras tile menu====================================================
 	public static void extrasTileMenuPop()
@@ -373,7 +350,7 @@ public class FloorsDirect {
 	}
 	//===========================================Tile Fitting Menu=========================================================
 	//=====================================================================================================================
-	public static double tileFittingMenu(ArrayList <Integer> areaNum, ArrayList <Integer> tileOrderAmount, ArrayList <String> tileOrderSize, ArrayList <Double> tileFitCPA, int addFitting)
+	public static int tileFittingMenu(ArrayList <Integer> areaNum, ArrayList <Integer> tileOrderAmount, ArrayList <String> tileOrderSize, ArrayList <Double> tileFitCPA, int addFitting)
 	{
 		double [] tileFitCost = {1.25, 1.50, 1.75}; // S,M,L
 		double sumFitting = 0;
@@ -416,7 +393,7 @@ public class FloorsDirect {
 	
 	//====================================================Tile Order Receipt=============================================================
 	//===================================================================================================================================
-	public static void tileReceipt(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, ArrayList <Double> tileFitCPA, double sumBill, boolean loggedIn)
+	public static void tileReceipt(ArrayList <Integer> areaNum, ArrayList <String> tileOrderType, ArrayList <String> tileOrderSize, ArrayList <Integer> tileOrderAmount, ArrayList <Double> tileOrderCost, ArrayList <Double> tileOrderPTC, ArrayList <String> extraOrderType, ArrayList <Double> extraOrderCost, ArrayList <Integer>extraOrderAmount, ArrayList <Double> tileFitCPA, double sumBill, boolean loggedIn, int addFitting)
 	{
 		My.clear();
 		int choice = 0;
@@ -472,7 +449,7 @@ public class FloorsDirect {
 		choice = myVal.validIntRange("\n\nPress 1. to return to main menu\n\n\tSelection: ", 1, 2);
 		switch (choice)
 		{
-		case 1: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn);
+		case 1: mainMenu(areaNum, tileOrderType, tileOrderSize, tileOrderAmount, tileOrderCost, tileOrderPTC, tileCost, extraOrderType, extraOrderCost, extraOrderAmount, tileFitCPA, sumBill, loggedIn, addFitting);
 		break;		
 		}
 		
@@ -509,9 +486,5 @@ public class FloorsDirect {
 		My.p(String.format("\n\t\tTotal bill = £%.2f", sumBill));
 		return sumBill;
 		}
-	}
-				
-				
-//NOTE TO SELF. REMEMBER 10% DISCOUNT NEEDS TO BE APPLIED. ALSO REMEMBER THAT CHECKOUT MAY NEED TO BE ASKED AT THE MAIN BODY INSTEAD OF MAIN MENU 
-				
+	}		
 }
